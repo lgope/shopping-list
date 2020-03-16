@@ -1,0 +1,31 @@
+{
+  "name": "markdown-blog",
+  "version": "1.0.0",
+  "description": "simple blog web app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lgope/markdown-blog.git"
+  },
+  "keywords": [
+    "simple blog",
+    "markdown blog",
+    "nodejs",
+    "expressjs",
+    "mongodb"
+  ],
+  "author": "Lakshman Gope",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lgope/markdown-blog/issues"
+  },
+  "homepage": "https://github.com/lgope/markdown-blog#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.4"
+  }
+}
