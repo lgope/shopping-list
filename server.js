@@ -9,8 +9,6 @@ mongoose.connect('mongodb://localhost/markdown-blog', {
 });
 
 app.set('view engine', 'ejs');
-
-app.use('/articles', articleRouter);
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
@@ -28,6 +26,8 @@ app.get('/', (req, res) => {
   ];
   res.render('articles/index', { articles });
 });
+
+app.use('/articles', articleRouter);
 
 const port = process.env.PORT | 3000;
 
