@@ -1,27 +1,29 @@
-const express = require('express');
 const mongoose = require('mongoose');
-const Article = require('./models/article');
-const articleRouter = require('./routes/articles');
-const methodOverride = require('method-override');
-const app = express();
+const chalk = require('chalk');
+const dotenv = require('dotenv');
 
-mongoose.connect('mongodb://localhost/markdown-blog', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
+dotenv.config({
+  path: './config.env',
 });
+const app = require('./app');
 
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride('_method'));
+const DB = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD
+);
 
-app.get('/', async (req, res) => {
-  const articles = await Article.find().sort({ createdAt: 'desc' });
-  res.render('articles/index', { articles });
-});
-
-app.use('/articles', articleRouter);
+// Mongo Atlas connection
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log(chalk.bgGreen('DB connection successful!')))
+  .catch((err) => console.log(chalk.redBright(`error :\n${err}`)));
 
 const port = process.env.PORT | 3000;
 
-app.listen(port, () => console.log(`server is listening at ${port}`));
+app.listen(port, () =>
+  console.log(`server is listening at ${chalk.greenBright(port)}`)
+);
