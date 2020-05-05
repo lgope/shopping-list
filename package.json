@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "both": "concurrently \"npm run dev\" \"npm run client\""
   },
   "repository": {
     "type": "git",
