@@ -11,11 +11,7 @@ exports.getAllItem = catchAsync(async (req, res, next) => {
   const items = await Item.find().sort({ date: -1 });
 
   // SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: items.length,
-    data: items,
-  });
+  res.status(200).json(items);
 });
 
 exports.createItem = catchAsync(async (req, res, next) => {
@@ -28,12 +24,7 @@ exports.createItem = catchAsync(async (req, res, next) => {
       new AppError('Something went wrong while trying to create the item', 400)
     );
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      data: newItem,
-    },
-  });
+  res.status(201).json(newItem);
 });
 
 exports.deleteItem = catchAsync(async (req, res, next) => {

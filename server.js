@@ -13,7 +13,7 @@ const DB = process.env.DATABASE_URI.replace(
 
 // Connect to Mongo
 mongoose
-  //   .connect(DB, {
+    // .connect(DB, {
   .connect('mongodb://localhost/shopping-list', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
