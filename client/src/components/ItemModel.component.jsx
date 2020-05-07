@@ -27,6 +27,21 @@ class ItemModel extends Component {
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const newItem = {
+      name: this.state.name,
+    };
+
+    // Adding item via addItem action
+    this.props.addItem(newItem);
+
+    // Closing Modal
+    this.toggle();
+  };
+
   render() {
     return (
       <div>
@@ -49,13 +64,12 @@ class ItemModel extends Component {
                   name='name'
                   id='item'
                   placeholder='Add shopping item'
+                  required
                   onChange={this.onChange}
                 />
-                <Button 
-                color='dark'
-                style={{marginTop: '2rem'}}
-                block
-                >Add Item</Button>
+                <Button color='dark' style={{ marginTop: '2rem' }} block>
+                  Add Item
+                </Button>
               </FormGroup>
             </Form>
           </ModalBody>
@@ -65,4 +79,8 @@ class ItemModel extends Component {
   }
 }
 
-export default connect()(ItemModel);
+const mapStateToProps = (state) => ({
+  item: state.item,
+});
+
+export default connect(mapStateToProps, { addItem })(ItemModel);

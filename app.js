@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./utils/appError');
 const itemsRoutes = require('./routes/itemRoutes');
 
 const app = express();
@@ -24,9 +25,9 @@ app.use(bodyParser.json());
 // Use Routes
 app.use('/api/items', itemsRoutes);
 
-app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-});
+// app.all('*', (req, res, next) => {
+//   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+// });
 
 app.use(globalErrorHandler);
 
