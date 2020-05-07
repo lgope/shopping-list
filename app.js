@@ -1,12 +1,13 @@
 const express = require('express');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
 const itemsRoutes = require('./routes/itemRoutes');
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -21,9 +22,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Body Parser Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Use Routes
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/items', itemsRoutes);
 
 // Serve static assets if in production
