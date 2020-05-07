@@ -89,7 +89,7 @@ const sendErrorProd = async (err, req, res) => {
 
 module.exports = (err, req, res, next) => {
   //   console.log('Hi', err.stack);
-  console.log(process.env.NODE_ENV);
+  // console.log(process.env.NODE_ENV);
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';

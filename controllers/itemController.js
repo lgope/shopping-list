@@ -16,8 +16,8 @@ exports.getAllItem = catchAsync(async (req, res, next) => {
 
 exports.createItem = catchAsync(async (req, res, next) => {
   const newItem = await Item.create({ name: req.body.name });
-
-  console.log(newItem);
+  
+  console.log('item', req.body.name);
 
   if (!newItem)
     return next(
