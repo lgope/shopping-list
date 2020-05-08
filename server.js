@@ -23,7 +23,7 @@ mongoose
   .then(() => console.log('DB connection successful!'))
   .catch((err) => console.log(chalk.redBright(err)));
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 app.listen(port, () =>
   console.log(`App running on port ${chalk.greenBright(port)}...`)
 );

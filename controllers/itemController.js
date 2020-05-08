@@ -16,26 +16,13 @@ exports.getAllItem = catchAsync(async (req, res, next) => {
 
 exports.createItem = catchAsync(async (req, res, next) => {
   const newItem = await Item.create({ name: req.body.name });
-  
-  console.log('item', req.body.name);
-
-  if (!newItem)
-    return next(
-      new AppError('Something went wrong while trying to create the item', 400)
-    );
 
   res.status(201).json(newItem);
 });
 
 exports.deleteItem = catchAsync(async (req, res, next) => {
-  const item = await Item.findOne({ _id: req.params.id });
-  if (!item) return next(new AppError('No item found', 404));
-
-  const removedItem = await item.remove();
-  if (!removedItem)
-    return next(
-      new AppError('Something went wrong while trying to delete the item', 400)
-    );
+  const item = await Item.findByIdAndDelete(req.params.id);
+  if (!item) return next(new AppError('No item found with that ID', 404));
 
   res.status(200).json({ success: true });
 });
