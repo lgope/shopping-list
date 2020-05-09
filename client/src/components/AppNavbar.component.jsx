@@ -10,6 +10,9 @@ import {
   Container,
 } from 'reactstrap';
 
+import RegisterModal from './auth/RegisterModal.component';
+import Logout from './auth/Logout.component';
+
 class AppNavbar extends Component {
   state = {
     isOpen: false,
@@ -31,9 +34,10 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
                 <NavItem>
-                  <NavLink href='https://github.com/lgope' target='balnk'>
-                    GitHub
-                  </NavLink>
+                  <RegisterModal />
+                </NavItem>
+                <NavItem>
+                  <Logout />
                 </NavItem>
               </Nav>
             </Collapse>
