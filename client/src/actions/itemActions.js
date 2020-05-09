@@ -1,35 +1,49 @@
 import axios from 'axios';
 import * as actions from './actionTypes';
+import { returnErrors } from './errorActions';
+import { tokenConfig } from './authActions';
 
-export const addItem = (item) => (dispatch) => {
-  axios.post('/api/items', item).then((res) =>
-    dispatch({
-      type: actions.ADD_ITEM,
-      payload: res.data,
-    })
-  );
+export const addItem = item => (dispatch, getState) => {
+  axios
+    .post('/api/items', item, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: actions.ADD_ITEM,
+        payload: res.data,
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
-export const getItems = () => (dispatch) => {
+export const getItems = () => dispatch => {
   dispatch(setItemsLoading());
   axios
     .get('/api/items')
-    .then((res) =>
+    .then(res =>
       dispatch({
         type: actions.GET_ITEMS,
         payload: res.data,
       })
     )
-    .catch((err) => console.log(err));
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
-export const deleteItems = (id) => (dispatch) => {
-  axios.delete(`/api/items/${id}`).then((res) =>
-    dispatch({
-      type: actions.DELETE_ITEM,
-      payload: id,
-    })
-  );
+export const deleteItems = id => (dispatch, getState) => {
+  axios
+    .delete(`/api/items/${id}`, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: actions.DELETE_ITEM,
+        payload: id,
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 export const setItemsLoading = () => {
