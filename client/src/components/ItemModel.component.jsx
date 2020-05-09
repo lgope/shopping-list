@@ -10,6 +10,7 @@ import {
   Label,
   Input,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { addItem } from '../actions/itemActions';
 
 class ItemModel extends Component {
@@ -18,17 +19,21 @@ class ItemModel extends Component {
     name: '',
   };
 
+  static propTypes = {
+    isAuthenticated: PropTypes.bool,
+  };
+
   toggle = () => {
     this.setState({
       model: !this.state.model,
     });
   };
 
-  onChange = (e) => {
+  onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
 
     const newItem = {
@@ -45,13 +50,17 @@ class ItemModel extends Component {
   render() {
     return (
       <div>
-        <Button
-          color='dark'
-          style={{ marginBottom: '2rem' }}
-          onClick={this.toggle}
-        >
-          Add Item
-        </Button>
+        {this.props.isAuthenticated ? (
+          <Button
+            color='dark'
+            style={{ marginBottom: '2rem' }}
+            onClick={this.toggle}
+          >
+            Add Item
+          </Button>
+        ) : (
+          <h4 className='mb-3 ml-4'>Please log in to manage items</h4>
+        )}
 
         <Modal isOpen={this.state.model} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add To Shopping List</ModalHeader>
@@ -79,8 +88,9 @@ class ItemModel extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   item: state.item,
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { addItem })(ItemModel);
