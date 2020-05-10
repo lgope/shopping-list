@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import AppNavbar from './components/AppNavbar.component';
 import ShoppingList from './components/ShoppingList.component';
 import ItemModel from './components/ItemModel.component';
@@ -11,24 +11,21 @@ import { loadUser } from './actions/authActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-class App extends Component {
-  componentDidMount() {
+const App = () => {
+  useEffect(() => {
     store.dispatch(loadUser());
-  }
-
-  render() {
-    return (
-      <Provider store={store}>
-        <div className='App'>
-          <AppNavbar />
-          <Container>
-            <ItemModel />
-            <ShoppingList />
-          </Container>
-        </div>
-      </Provider>
-    );
-  }
-}
+  }, []);
+  return (
+    <Provider store={store}>
+      <div className='App'>
+        <AppNavbar />
+        <Container>
+          <ItemModel />
+          <ShoppingList />
+        </Container>
+      </div>
+    </Provider>
+  );
+};
 
 export default App;
