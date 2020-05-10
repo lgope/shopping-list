@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Button,
@@ -10,83 +10,67 @@ import {
   Label,
   Input,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 import { addItem } from '../actions/itemActions';
 
-class ItemModel extends Component {
-  state = {
-    model: false,
-    name: '',
-  };
+const ItemModel = ({ isAuthenticated, addItem }) => {
+  const [modal, setModal] = useState(false);
+  const [name, setName] = useState('');
 
-  static propTypes = {
-    isAuthenticated: PropTypes.bool,
-  };
+  const handleToggle = () => setModal(!modal);
 
-  toggle = () => {
-    this.setState({
-      model: !this.state.model,
-    });
-  };
+  const handleChangeName = event => setName(event.target.value);
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
+  const handleOnSubmit = event => {
+    event.preventDefault();
 
     const newItem = {
-      name: this.state.name,
+      name,
     };
 
-    // Adding item via addItem action
-    this.props.addItem(newItem);
-
-    // Closing Modal
-    this.toggle();
+    // Add item via addItem action
+    addItem(newItem);
+    // Close modal
+    handleToggle();
   };
 
-  render() {
-    return (
-      <div>
-        {this.props.isAuthenticated ? (
-          <Button
-            color='dark'
-            style={{ marginBottom: '2rem' }}
-            onClick={this.toggle}
-          >
-            Add Item
-          </Button>
-        ) : (
-          <h4 className='mb-3 ml-4'>Please log in to manage items</h4>
-        )}
+  return (
+    <div>
+      {isAuthenticated ? (
+        <Button
+          color='dark'
+          style={{ marginBottom: '2rem' }}
+          onClick={handleToggle}
+        >
+          Add Item
+        </Button>
+      ) : (
+        <h4 className='mb-3 ml-4'>Please log in to manage items</h4>
+      )}
 
-        <Modal isOpen={this.state.model} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Add To Shopping List</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for='item'>Item</Label>
-                <Input
-                  type='text'
-                  name='name'
-                  id='item'
-                  placeholder='Add shopping item'
-                  required
-                  onChange={this.onChange}
-                />
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
-                  Add Item
-                </Button>
-              </FormGroup>
-            </Form>
-          </ModalBody>
-        </Modal>
-      </div>
-    );
-  }
-}
+      <Modal isOpen={modal} toggle={handleToggle}>
+        <ModalHeader toggle={handleToggle}>Add To Shopping List</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleOnSubmit}>
+            <FormGroup>
+              <Label for='item'>Item</Label>
+              <Input
+                type='text'
+                name='name'
+                id='item'
+                placeholder='Add shopping item'
+                required
+                onChange={handleChangeName}
+              />
+              <Button color='dark' style={{ marginTop: '2rem' }} block>
+                Add Item
+              </Button>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
+    </div>
+  );
+};
 
 const mapStateToProps = state => ({
   item: state.item,
