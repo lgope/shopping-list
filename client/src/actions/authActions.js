@@ -66,8 +66,6 @@ export const register = ({ name, email, password }) => dispatch => {
 export const login = ({ email, password }) => (
   dispatch
 ) => {
-
-  console.log('user', email, password);
   // Headers
   const config = {
     headers: {
